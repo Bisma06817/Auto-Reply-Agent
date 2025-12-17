@@ -46,8 +46,7 @@
       "name": "Get many messages",
       "webhookId": "c153b805-8991-435d-abe2-e00be86ae858",
       "credentials": {
-        "microsoftOutlookOAuth2Api": {
-          "id": "q1R3sDdYkuhSImCo",
+        "microsoftOutlookOAuth2Api": ,
           "name": "Microsoft Outlook account 4"
         }
       }
@@ -87,7 +86,6 @@
       "name": "OpenAI Chat Model",
       "credentials": {
         "openAiApi": {
-          "id": "ePk7PxN0btfeDKI9",
           "name": "OpenAi account 2"
         }
       }
@@ -152,7 +150,6 @@
       "webhookId": "0c17fea1-6f0c-499c-bf57-2351382da593",
       "credentials": {
         "microsoftOutlookOAuth2Api": {
-          "id": "q1R3sDdYkuhSImCo",
           "name": "Microsoft Outlook account 4"
         }
       }
