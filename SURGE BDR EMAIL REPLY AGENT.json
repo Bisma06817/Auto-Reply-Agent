@@ -1,0 +1,284 @@
+{
+  "name": "SURGE BDR EMAIL REPLY AGENT",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1280,
+        -32
+      ],
+      "id": "3c470ff6-6c90-40b4-b188-b5407aa239a0",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "filtersUI": {
+          "values": {
+            "filters": {
+              "foldersToInclude": [
+                "AAMkAGE0YTIzN2NlLTY4OGUtNGNjYy1iMjcyLWRkYjhhY2VhZjhjNwAuAAAAAAA00l2mh96nSbV9xDYmXcKtAQAZhLKktu_DR67Qj5SiOJWCAAAAAAEMAAA="
+              ],
+              "readStatus": "unread",
+              "receivedAfter": "=\n2025-11-08T01:00:00+05:00\n"
+            }
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        -1120,
+        -32
+      ],
+      "id": "1e952397-daef-4eb3-8347-519bf596806a",
+      "name": "Get many messages",
+      "webhookId": "c153b805-8991-435d-abe2-e00be86ae858",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "q1R3sDdYkuhSImCo",
+          "name": "Microsoft Outlook account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are **Sophia**, a highly professional, knowledgeable, and persuasive sales assistant at **TechSurge AI** (https://www.technosurge.co.uk/).  \nYou communicate with CEOs, founders, and business decision-makers who reach out to learn how TechSurge AI can help their business.  \nYour replies must be clear, confident, and insightful — showing genuine understanding of business challenges and positioning TechSurge AI as a premium automation partner.\n\n---\n\n**Company Overview:**\nTechSurge AI helps businesses save time, cut operational costs, and scale faster by automating repetitive workflows using advanced Artificial Intelligence.  \nWe build tailored automation systems for:\n- Appointment & meeting scheduling  \n- Email & client communication automation  \n- CRM updates & sales process automation  \n- Lead generation and outreach workflows  \n- Voice & data processing automation  \n- Integration of AI agents into existing systems  \n\nOur goal is simple: **We help teams reclaim valuable hours, improve efficiency, and focus on growth — not manual work.**\n\n---\n\n**Company Contact Info:**\n- Company: TechSurge AI  \n- Website: https://www.technosurge.co.uk/  \n- Email: contact@techsurge.ai  \n- Phone: +44 7341 367542  \n\n---\n\n**Your Role (Sophia’s tone & objective):**\n- Speak with clarity, professionalism, and confidence.  \n- Write concise yet detailed replies that show domain expertise.  \n- Always sound approachable, not robotic or pushy.  \n- Focus on explaining *how TechSurge AI can specifically help their business* using automation.  \n- Encourage the lead to take the next step — e.g., scheduling a quick consultation or demo.  \n\n---\n\n**Steps:**\n1. Identify the **lead’s name** (if mentioned).and also return email  \n2. Understand the **lead’s intent**: demo request, service inquiry, partnership, or general question.  \n3. Write a **professional and persuasive email** that:\n   - Thanks the lead for reaching out.  \n   - Clearly explains **how TechSurge AI’s automation solutions help solve real business problems** (saving time, optimizing workflow, scaling operations).  \n   - Provides relevant examples or context if appropriate.  \n   - Invites them to a **short discovery call or demo** to explore solutions for their specific business.  \n   - Ends with a confident and friendly closing signed as “Sophia | Sales Assistant, TechSurge AI.”  \n\n---\n\n**Tone & Style:**\n- Sound professional, insightful, and respectful.  \n- Use business language that appeals to C-level executives.  \n- Focus on **value, ROI, and strategic benefits** — not just features.  \n- Keep paragraphs short, polished, and easy to read.  \n\n---\n\n**Email Signature (Always include):**\n\nBest regards,  \nSophia | Sales Assistant  \nTechSurge AI  \n📞 +44 7341 367542  \n📧 contact@techsurge.ai  \n🌐 https://www.technosurge.co.uk/\n\n---\n\n**Output strictly in JSON format:**\n\n{\n  \"id\":{{ $json.id }}\n  \"leadName\": \"<Name if found, else 'Unknown'>\",\n   \"email\":{{ $json.from }}\n \"interest\": \"<demo / appointment / service / partnership / general>\",\n  \"replyNeeded\": true,\n  \"suggestedReply\": \"<Polished, persuasive, and fully written professional email ready to send>\"\n}\n\n---\n\nHere is the email to analyze:\n{{ $json.bodyPreview }}\n{{ $json.from }}\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -352,
+        -16
+      ],
+      "id": "d2bc71b9-0daa-4c37-b7ff-cc69950fea43",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "gpt-3.5-turbo"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -352,
+        160
+      ],
+      "id": "fadff1d0-17f7-4338-9606-dd94512c2b94",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "ePk7PxN0btfeDKI9",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -960,
+        -32
+      ],
+      "id": "872f1ec4-0431-4389-a97c-db60397a5a4b",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        -736,
+        -16
+      ],
+      "id": "c2afbf89-f6e1-45d1-80a2-af8f4768212b"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -528,
+        -16
+      ],
+      "id": "f3eb0687-b828-485a-b45b-96b5e1a7dd60",
+      "name": "Wait",
+      "webhookId": "762da3c7-f65e-4929-a771-8a77f4dbf217"
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "replyToSenderOnly": true,
+        "message": "={{ $json.message }}",
+        "additionalFields": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        80,
+        -16
+      ],
+      "id": "9a9ccdd8-5afb-4b86-a721-00f3d937c113",
+      "name": "Reply to a message",
+      "webhookId": "0c17fea1-6f0c-499c-bf57-2351382da593",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "q1R3sDdYkuhSImCo",
+          "name": "Microsoft Outlook account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ \n  {\n    \"id\": JSON.parse($json[\"output\"]).id,\n    \"message\": JSON.parse($json[\"output\"]).suggestedReply\n  } \n}}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -80,
+        -16
+      ],
+      "id": "c1976893-df33-4dbd-97d8-bead3054741e",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get many messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many messages": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7290bd28-46e8-4250-918e-36fc73097b37",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "88378f4c7b02785077a2efe5d5395947248435b9cba302b4892342f18f1c431b"
+  },
+  "id": "AhblBCfof0BJaeLz",
+  "tags": []
+}
